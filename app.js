@@ -161,6 +161,11 @@ function digestChallenge(obj, logger, opts) {
         const sigHeader = generateSigHeader(body || 'null', req.locals.webhook_secret);
         headers = {...sigHeader, ...headers};
       }
+      headers = {
+        ...headers,
+        ...(process.env.JAMBONES_HTTP_USER_AGENT_HEADER &&
+          {'user-agent' : process.env.JAMBONES_HTTP_USER_AGENT_HEADER}),
+      };
       const json = await request(uri, body, headers);
       if (startAt) {
         const diff = process.hrtime(startAt);
