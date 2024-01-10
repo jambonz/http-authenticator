@@ -163,7 +163,7 @@ function digestChallenge(obj, logger, opts) {
       }
       headers = {
         ...headers,
-        'user-agent': process.env.JAMBONES_HTTP_USER_AGENT_HEADER || 'jambonz'
+        ...(process.env.JAMBONES_HTTP_USER_AGENT_HEADER && {'user-agent' : process.env.JAMBONES_HTTP_USER_AGENT_HEADER}),
       };
       const json = await request(uri, body, headers);
       if (startAt) {
